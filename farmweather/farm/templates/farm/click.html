@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gardening Help</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url("background.jpg") no-repeat center center/cover; /* replace with your image */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      font-size: 1rem;
+    }
+
+    .option input {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Do you relate to the statement below?</h2>
+
+    <label class="option">
+      <input type="checkbox"> I struggle to remember plant care and watering schedules
+    </label>
+
+    <label class="option">
+      <input type="checkbox"> I need help selecting plants suitable for my space
+    </label>
+
+    <label class="option">
+      <input type="checkbox"> I feel overwhelmed by the vast information on gardening
+    </label>
+
+    <button onclick="window.location.href='home.html'">Next</button>
+  </div>
+
+</body>
+</html>

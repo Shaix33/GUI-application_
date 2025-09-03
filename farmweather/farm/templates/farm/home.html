@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Farm Weather Dashboard</title>
+    <link rel="stylesheet" href="{% static 'farm/styles.css' %}">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 1rem; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        form { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+        input[type="text"] { padding: 0.5rem; font-size: 1rem; width: 60%; border-radius: 4px; border: 1px solid #ccc; }
+        button { padding: 0.5rem 1rem; margin-left: 0.5rem; border: none; border-radius: 4px; background-color: #3498db; color: white; cursor: pointer; }
+        button:hover { background-color: #2980b9; }
+        .messages { color: red; text-align: center; margin-bottom: 1rem; }
+        .weather, .summary, .crops, .daily { margin-bottom: 2rem; }
+
+        /* General card style */
+        .card {
+            background: #ecf0f1;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        .card h2 { color: #2c3e50; margin-bottom: 0.5rem; }
+        .card p { margin: 0.3rem 0; }
+
+        /* Location setup card */
+        .location-setup {
+            background: #f9f1ff; /* soft violet background */
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .location-setup h2 { color: #8e44ad; margin-bottom: 0.5rem; }
+        .location-setup p { color: #2c3e50; margin: 0; }
+
+        /* Flex container for weather and summary */
+        .weather-summary-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .weather-summary-container .card {
+            flex: 1 1 45%;
+            min-width: 250px;
+        }
+
+        /* Daily forecast cards with colors */
+        .daily-cards { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem; }
+        .daily-card {
+            border-radius: 8px;
+            padding: 0.8rem;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #2c3e50;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        /* Colored cards for each day */
+        .daily-card:nth-child(1) { background: #ffe0ac; }
+        .daily-card:nth-child(2) { background: #ffb3b3; }
+        .daily-card:nth-child(3) { background: #b3ffd9; }
+        .daily-card:nth-child(4) { background: #b3d9ff; }
+        .daily-card:nth-child(5) { background: #d9b3ff; }
+        /* Hover effect */
+        .daily-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+        /* Styled bullets for crops */
+        .crops ul { list-style: none; padding-left: 0; }
+        .crops ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        .crops ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #8e44ad; /* violet bullet color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Farm Weather Dashboard</h1>
+
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Location setup card -->
+        <div class="location-setup card">
+            <h2>Let's set up your location</h2>
+            <p>Enter your location below to see the current weather, 5-day forecast, and what we have suggested for your farm.</p>
+        </div>
+
+        <!-- Location search form -->
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.location }}
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Daily forecast -->
+        {% if daily %}
+            <div class="daily">
+                <h2>Daily Forecast</h2>
+                <div class="daily-cards">
+                    {% for day in daily %}
+                        <div class="daily-card">
+                            <p>{{ day.date }}</p>
+                            <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="{{ day.condition }}">
+                            <p>{{ day.condition }}</p>
+                            <p>Min: {{ day.min }}°C</p>
+                            <p>Max: {{ day.max }}°C</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Current weather and 5-day summary side by side -->
+        <div class="weather-summary-container">
+            {% if weather %}
+                <div class="weather card">
+                    <h2>Current Weather for {{ location_label }}</h2>
+                    <p>Temperature: {{ weather.main.temp }}°C</p>
+                    <p>Condition: {{ weather.weather.0.main }}</p>
+                    <p>Humidity: {{ weather.main.humidity }}%</p>
+                    <p>Wind: {{ weather.wind.speed }} m/s</p>
+                </div>
+            {% endif %}
+
+            {% if summary %}
+                <div class="summary card">
+                    <h2>5-Day Summary</h2>
+                    <p>Average Temperature: {{ summary.avg_temp }}°C</p>
+                    <p>Total Rainfall: {{ summary.total_rain_mm }} mm</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Suggested crops -->
+        {% if crops %}
+            <div class="crops">
+                <h2>Suggested crops you can plant in this weather</h2>
+                <ul>
+                    {% for crop in crops %}
+                        <li>{{ crop }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+

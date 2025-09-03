@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmWise Assistant</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background: linear-gradient(90deg, #4CAF50, #3e8e41);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #d4ffd6;
+        }
+
+        /* Hero Section under navbar */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: #e9f5ec;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #2e7d32;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Main Section */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .chat-container {
+            background: #fff;
+            width: 100%;
+            max-width: 900px;
+            height: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+        }
+
+        iframe {
+            border: none;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+            }
+            nav ul li {
+                padding: 8px 0;
+            }
+            header h1 {
+                font-size: 1.6rem;
+            }
+            .chat-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">FarmWise</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Guide</a></li>
+            <li><a href="#">Chatbot</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+        <h1>FarmWise Assistant</h1>
+        <p>Your virtual guide for growing vegetables and fruits</p>
+    </header>
+
+    <!-- Main Chat Section -->
+    <main>
+        <div class="chat-container">
+            <iframe src="https://landbot.online/v3/H-3114526-70LU8AJX8I9N6A1V/index.html"></iframe>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 FarmWise Assistant. All rights reserved.
+    </footer>
+</body>
+</html>
+
+
+
