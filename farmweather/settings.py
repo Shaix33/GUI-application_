@@ -18,20 +18,26 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
-OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
-print(f"Loaded API key: '{OPENWEATHER_API_KEY}'")
+# Load Open-Meteo config from .env
+OPENMETEO_BASE_URL = os.getenv("OPEN_METEO_BASE_URL", "https://api.open-meteo.com/v1")
+GEOCODING_API_URL = os.getenv("GEOCODING_API_URL", "https://geocoding-api.open-meteo.com/v1/search")
+MAPMYCROP_BASE_URL = os.getenv("MAPMYCROP_BASE_URL", "https://mapmycrop.com/api/v1/monitor")
+
+# Fail fast if missing
+if not OPENMETEO_BASE_URL or not GEOCODING_API_URL:
+    raise ValueError("Missing Open-Meteo config in .env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8ce++n%gb*pnd8(=mimce&2rqvtta%69v6#chy&ox@i58(4ud*'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()]
 
 
 # Application definition
