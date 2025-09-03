@@ -7,7 +7,7 @@ from .serializers import (
     CropSerializer,
     LocationSerializer,
     WeatherDataSerializer,
-    UserProfileSerializer
+    UserProfileSerializer,
 )
 from .services import OpenMeteoService
 from .crops import suggest_crops

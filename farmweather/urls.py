@@ -19,6 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("farm.urls")), # Frontend views
-    path('api/', include("farm.urls")),  # API endpoints
+    path('', include('farmweather.farm.urls')), # Frontend views
 ]

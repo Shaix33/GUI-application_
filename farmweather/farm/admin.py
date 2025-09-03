@@ -25,7 +25,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 # WeatherData admin
 class WeatherDataAdmin(admin.ModelAdmin):
-    list_display = ('location', 'recorded_at', 'temperature', 'precipitation', 'weather_code', 'fetch_latest')
+    list_display = ('location', 'recorded_at', 'temperature_current', 'precipitation', 'weather_code', 'fetch_latest')
     search_fields = ('location__name',)
     list_filter = ('weather_code', 'recorded_at')
     

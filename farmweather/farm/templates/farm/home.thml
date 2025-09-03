@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FarmWeather - Home</title>
+</head>
+<body>
+    <h1>Welcome to FarmWeather</h1>
+    <p>Current Weather: {{ weather }}</p>
+    <p>Summary: {{ summary }}</p>
+    <p>Suggested Crops: {{ crops }}</p>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.core.cache import cache
 import json
@@ -226,6 +227,11 @@ class UserProfile(models.Model):
     # Farm details
     farm_name = models.CharField(max_length=100, blank=True)
     farm_size_hectares = models.FloatField(null=True, blank=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    email_verified = models.BooleanField(default=False)
+    
     farming_experience = models.CharField(max_length=20, choices=[
         ('beginner', 'Beginner (0-2 years)'),
         ('intermediate', 'Intermediate (3-10 years)'),
@@ -254,6 +260,22 @@ class UserProfile(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return f"{self.user.username}'s Profile"
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'phone_display', 'address_display')
+
+    def phone_display(self, obj):
+        return obj.phone if obj.phone else '-'
+    phone_display.short_description = 'Phone'
+
+    def address_display(self, obj):
+        return obj.primary_location.city if obj.primary_location else '-'
+    address_display.short_description = 'Address'
+
+class WeatherDataAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location', 'temperature_current', 'weather_description', 'recorded_at', 'temperature')
+
+    def temperature(self, obj):
+        return f"{obj.temperature_current:.1f} °C" if obj.temperature_current is not None else "—"
+    temperature.short_description = "Temperature (°C)"

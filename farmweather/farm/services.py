@@ -37,27 +37,6 @@ class OpenMeteoService:
                 'timezone': 'auto',
                 'forecast_days': 1,
             }
-        
-    def _reverse_geocode(self, latitude: float, longitude: float) -> str:
-        """Convert lat/lon to location name using OpenStreetMap."""
-        try:
-            response = requests.get(
-                f"{settings.GEOCODING_API_URL}",
-                params={
-                    'format': 'json',
-                    'lat': latitude,
-                    'lon': longitude,
-                    'limit': 1,
-                },
-                headers={'User-Agent': 'BinaryBlossom/1.0'},
-                timeout=10,
-            )
-            response.raise_for_status()
-            data = response.json()
-            return data[0]['display_name'] if data else f"{latitude}, {longitude}"
-        except Exception as e:
-            logger.error(f"Reverse geocoding failed: {e}")
-            return f"{latitude}, {longitude}"
 
             response = requests.get(url, params=params, timeout=10)
             response.raise_for_status()
@@ -65,28 +44,29 @@ class OpenMeteoService:
 
             current = data.get('current', {})
             return {
-                    'temperature': current.get('temperature_2m'),
-                    'humidity': current.get('relative_humidity_2m'),
-                    'surface_pressure': current.get('surface_pressure'),
-                    'apparent_temperature': current.get('apparent_temperature'),
-                    'is_day': current.get('is_day') == 1,
-                    'precipitation': current.get('precipitation'),
-                    'weather_code': current.get('weather_code'),
-                    'cloud_cover': current.get('cloud_cover'),
-                    'pressure': current.get('pressure_msl') or current.get('surface_pressure'),
-                    'wind_speed': current.get('wind_speed_10m'),
-                    'wind_direction': current.get('wind_direction_10m'),
-                    'wind_gusts': current.get('wind_gusts_10m'),
-                    'timezone': data.get('timezone'),
-                    'elevation': data.get('elevation'),
-                    'time': current.get('time'),
-                }
+                'temperature': current.get('temperature_2m'),
+                'humidity': current.get('relative_humidity_2m'),
+                'surface_pressure': current.get('surface_pressure'),
+                'apparent_temperature': current.get('apparent_temperature'),
+                'is_day': current.get('is_day') == 1,
+                'precipitation': current.get('precipitation'),
+                'weather_code': current.get('weather_code'),
+                'cloud_cover': current.get('cloud_cover'),
+                'pressure': current.get('pressure_msl') or current.get('surface_pressure'),
+                'wind_speed': current.get('wind_speed_10m'),
+                'wind_direction': current.get('wind_direction_10m'),
+                'wind_gusts': current.get('wind_gusts_10m'),
+                'timezone': data.get('timezone'),
+                'elevation': data.get('elevation'),
+                'time': current.get('time'),
+            }
         except requests.RequestException as e:
-                logger.error(f"Error fetching current weather: {e}")
-                return None
+                    logger.error(f"Error fetching current weather: {e}")
+                    return None
         except Exception as e:
-                logger.error(f"Weather data processing error: {e}")
-                return None
+            logger.error(f"Weather data processing error: {e}")
+            return None
+        
         
     def get_weather_forecast(self, latitude: float, longitude: float, days: int = 7) -> dict:
         try:
@@ -203,6 +183,4 @@ class OpenMeteoService:
         except Exception as e:
             logger.error(f"Historical weather data processing error: {e}")
             return None
-                #'timezone': data.get('timezone'),
-                #'elevation': data.get('e
-
+        
